@@ -7,7 +7,7 @@ from django.shortcuts import render
 from .models import Library, Book
 from django.views.generic.detail import DetailView
 
-def book_list(request):
+def list_books(request):
     """This function will retrieve all books and render it via a template displaying the list"""
 
     books = Book.objects.all()  #Fetches all book instances from the db
