@@ -5,7 +5,7 @@ from django.shortcuts import render
 #Call model from the models.py module and import modules for class based view subclassing
 
 from .models import Library, Book
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView
 
 def book_list(request):
     """This function will retrieve all books and render it via a template displaying the list"""
