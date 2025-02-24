@@ -4,7 +4,7 @@ from django.shortcuts import render
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing
 
-from .models import Book, Library
+from .models import Library, Book
 from django.views.generic import ListView, DetailView
 
 def book_list(request):
