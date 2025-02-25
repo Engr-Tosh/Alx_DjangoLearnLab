@@ -6,6 +6,7 @@ from .models import Library, Book
 from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 
 # Create your views here.
 #The first task is to list all the books stored in the database
@@ -33,6 +34,12 @@ class register(CreateView):
     success_url = reverse_lazy('login')     #Page to redigrect to after the registration is successful
     template_name = 'registration/register.html'
 
-# class LogoutView(CreateView):
+
     
-    
+def login(request):
+    login(LoginView)
+    return render(request, template_name='registration/login.html')
+
+def logout(request):
+    logout(LogoutView)
+    return render(request, template_name="registration/logout.html")
