@@ -1,15 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import CreateView
-
+from .models import Library, Book
+from django.views.generic.detail import DetailView
+from django.contrib.auth.models import User
+from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView, LogoutView
 
 # Create your views here.
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing
-
-from .models import Library, Book
-from django.views.generic.detail import DetailView
 
 def list_books(request):
     """This function will retrieve all books and render it via a template displaying the list"""
@@ -26,9 +27,6 @@ class LibraryDetailView(DetailView):
 
 
 """Implementing user authentication views in django"""
-from django.contrib.auth import login, logout
-from django.contrib.auth.models import User
-
 #Class based view that Handles User registration
 class register(CreateView):
     model = User
@@ -36,5 +34,7 @@ class register(CreateView):
     success_url = reverse_lazy('login')     #Page to redigrect to after the registration is successful
     template_name = 'registration/register.html'
 
-def LogoutView(request):
-    return render(request, "registration/logout.html")
+def custom_logout(request):
+    logout(request)
+    return redirect('login')
+    
