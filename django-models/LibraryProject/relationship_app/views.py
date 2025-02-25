@@ -30,7 +30,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
 #Class based view that Handles User registration
-class Register(CreateView):
+class register(CreateView):
     model = User
     form_class = UserCreationForm       #Creates a view class for user registration
     success_url = reverse_lazy('login')     #Page to redigrect to after the registration is successful
