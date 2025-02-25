@@ -8,5 +8,5 @@ urlpatterns = [
     path('library_details/', views.LibraryDetailView.as_view(), name= 'details'),
     path('register/', views.RegistrationView.as_view(), name = 'SignUp'),
     path('login/', LoginView.as_view(template_name='registration/login.html'), name = 'login'),
-    path('logout/', LogoutView.as_view(tempplate_name="logout"), name='logout')
+    path('logout/', LogoutView.as_view(template_name="logout"), name='logout')
 ]
