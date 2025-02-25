@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 # Create your views here.
 #The first task is to list all the books stored in the database
