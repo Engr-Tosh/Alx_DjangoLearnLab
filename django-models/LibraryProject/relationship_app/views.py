@@ -38,8 +38,8 @@ class register(CreateView):
     
 def login(request):
     login(LoginView)
-    return render(request, template_name='registration/login.html')
+    return LoginView
 
 def logout(request):
     logout(LogoutView)
-    return render(request, template_name="registration/logout.html")
+    return LogoutView
