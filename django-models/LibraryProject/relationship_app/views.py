@@ -32,6 +32,8 @@ class register(CreateView):
     success_url = reverse_lazy('login')     #Page to redigrect to after the registration is successful
     template_name = 'registration/register.html'
 
-urlpatterns = [
-    path
-]
+    def login(request):
+        return render(request, "registration/login.html")
+    
+    def logout(request):
+        return render(request, "registration/logout.html")
