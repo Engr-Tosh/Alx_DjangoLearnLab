@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import path, reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth import login
 
 # Create your views here.
 #The first task is to list all the books stored in the database
@@ -31,3 +32,6 @@ class RegistrationView(CreateView):
     success_url = reverse_lazy('login')     #Page to redigrect to after the registration is successful
     template_name = 'registration/register.html'
 
+urlpatterns = [
+    pass
+]
