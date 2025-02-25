@@ -27,11 +27,11 @@ class LibraryDetailView(DetailView):
 
 """Implementing user authentication views in django"""
 #Handles User registration
-class RegistrationView(CreateView):
+class register(CreateView):
     form_class = UserCreationForm       #Creates a view class for user registration
     success_url = reverse_lazy('login')     #Page to redigrect to after the registration is successful
     template_name = 'registration/register.html'
 
 urlpatterns = [
-    pass
+    path
 ]
