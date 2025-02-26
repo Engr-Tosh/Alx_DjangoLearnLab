@@ -6,7 +6,6 @@ from .models import Library, Book
 from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView, LogoutView, logout_then_login
 
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing
@@ -35,9 +34,13 @@ class register(CreateView):
     model = User
     form_class = UserCreationForm       #Creates a view class for user registration
     success_url = reverse_lazy('login')     #Page to redirect to after the registration is successful
-    template_name = 'registration/register.html'
+    template_name = 'templates/register.html'
 
+class LoginView(CreateView):
+    def login(request):
+        return render(request, "templates/login.html")
 
-def logout(request):
-    """Render the logout confirmation page"""
-    return render(request, 'registration/logout.html')
+class LogoutView(CreateView):
+    def logout(request):
+        """Render the logout confirmation page"""
+        return render(request, 'templates/logout.html')
