@@ -32,7 +32,7 @@ class LibraryDetailView(DetailView):
 #Class based view that Handles User registration
 class register(CreateView):
     model = User
-    form_class = UserCreationForm       #Creates a view class for user registration
+    form_class = UserCreationForm()       #Creates a view class for user registration
     success_url = reverse_lazy('login')     #Page to redirect to after the registration is successful
     template_name = 'relationship_app/register.html'
 
