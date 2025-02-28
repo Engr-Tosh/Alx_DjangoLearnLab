@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.views import View
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -14,8 +13,6 @@ def role_check(user):           #function to check user role to be passed to the
     except UserProfile.DoesNotExist:
         return False
 
-@user_passes_test(role_check, )
-class AdminView(View):
-    template_name = ""    
-    def get(self, request):
-        return render(request, self.template_name)
+@user_passes_test(role_check)
+def AdminView(request):
+        return render(request, template_name="")
