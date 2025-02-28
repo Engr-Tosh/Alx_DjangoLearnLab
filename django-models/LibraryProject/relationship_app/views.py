@@ -80,7 +80,7 @@ def get_book_list():
     return Book.objects.all()
 
 #Permission for a user to create book
-@permission_required('relationship_app/can_add_book')
+@permission_required('relationship_app.can_add_book')
 def add_book(request):
     book = Book.objects.create()
     book.save()
@@ -88,7 +88,7 @@ def add_book(request):
     return render(request, "relationship_app/list_book.html", context)
 
 #Permission to delete book
-@permission_required('relationship_app/can_delete_book')
+@permission_required('relationship_app.can_delete_book')
 def delete(request):
     book = Book.objects.get(id=None)       #Fetches the book instance to be deleted
     book.delete()       #Deletes the book
@@ -96,7 +96,7 @@ def delete(request):
     return render(request, "relationship_app/list_book.html", context)
 
 #Permission to edit/change book
-@permission_required("relationship_app/can_change_book")
+@permission_required("relationship_app.can_change_book")
 def edit(request);
     book = Book.objects.get(id=None)
     book.title = None
