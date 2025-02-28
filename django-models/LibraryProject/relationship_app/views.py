@@ -54,7 +54,7 @@ def role_check(user):
         user_role = logged_in_user.role
 
         match user_role:
-            case "Admin" | "Librarian" | "Member":
+            case "Admin" | "Librarians" | "Member":
                 return True
             case _:
                 return False               
@@ -67,7 +67,7 @@ def role_check(user):
 def Admin(request):
     return(request, "relationship_app/admin_view.html")
 
-@user_passes_test(role_check)
+@user_passes_test(role_check(user='Librarians'))
 def Librarian(request):
     return(request, "relationship_app/librarian_view.html")
 
