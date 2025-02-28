@@ -67,7 +67,7 @@ def role_check(user):
 def Admin(request):
     return(request, "relationship_app/admin_view.html")
 
-@user_passes_test(role_check(user='Librarians'))
+@user_passes_test(role_check(user_role='Librarians'))
 def Librarian(request):
     return(request, "relationship_app/librarian_view.html")
 
