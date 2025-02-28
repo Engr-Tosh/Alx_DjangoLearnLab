@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
-from .admin_view import role_check
+from .admin_view import Admin
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 #The first task is to list all the books stored in the database
@@ -49,4 +49,4 @@ class LogoutView(View):
 @login_required
 @user_passes_test(role_check)
 def Admin(request):
-        return render(request, template_name="admin_dashboard.html")
+        return render(request)
