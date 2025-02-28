@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm      
 from django.urls import path, reverse_lazy
 from django.views.generic import CreateView
-from .models import Library, Book
+from .models import Library, Book, UserProfile
 from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
@@ -46,7 +46,20 @@ class LogoutView(View):
         logout(request)         #logouts user 
         return render(request, self.template_name)      #displays the logout the logout page after user has been logged out
     
-@login_required
+from django.contrib.auth.decorators import user_passes_test
+
+def role_check(user):
+    try:
+        logged_in_user = UserProfile.objects.get(user=user)
+        user_role = logged_in_user.role
+        if user_role == 'admin':
+            return True
+        else:
+            return False
+    except UserProfile.DoesNotExist:
+        return False
+    
+
 @user_passes_test(role_check)
 def Admin(request):
-        return render(request)
+    return(request, "relationship_app/admin_view.html")
