@@ -48,13 +48,27 @@ class LogoutView(View):
     
 from django.contrib.auth.decorators import user_passes_test
 
-def admin_role_check(user):
+# def admin_role_check(user):
+#     try:
+#         logged_in_user = UserProfile.objects.get(user=user)
+#         user_role = logged_in_user.role
+
+#         match user_role:
+#             case "Admin":
+#                 return True
+#             case _:
+#                 return False               
+
+#     except UserProfile.DoesNotExist:
+#         return False
+
+def role_check(user):
     try:
         logged_in_user = UserProfile.objects.get(user=user)
         user_role = logged_in_user.role
 
         match user_role:
-            case "Admin":
+            case "Admin" | "Librarians" | "Member":
                 return True
             case _:
                 return False               
@@ -62,28 +76,14 @@ def admin_role_check(user):
     except UserProfile.DoesNotExist:
         return False
 
-def librarian_role_check(user):
-    try:
-        logged_in_user = UserProfile.objects.get(user=user)
-        user_role = logged_in_user.role
-
-        match user_role:
-            case "Librarians":
-                return True
-            case _:
-                return False               
-
-    except UserProfile.DoesNotExist:
-        return False
-
-@user_passes_test(admin_role_check)
+@user_passes_test(role_check)
 def Admin(request):
     return(request, "relationship_app/admin_view.html")
 
-@user_passes_test(librarian_role_check)
+@user_passes_test(role_check)
 def Librarians(request):
     return(request, "relationship_app/librarian_view.html")
 
-# @user_passes_test()
+@user_passes_test()
 def Member(request):
     return(request, 'relationship_app/member_view.html')
