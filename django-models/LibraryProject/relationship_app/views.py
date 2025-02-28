@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
-from .admin_view import Admin
+from .admin_view import role_check
 
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing
@@ -44,3 +44,8 @@ class LogoutView(View):
     def get(self, request):
         logout(request)         #logouts user 
         return render(request, self.template_name)      #displays the logout the logout page after user has been logged out
+    
+
+@user_passes_test(role_check)
+def Admin(request):
+        return render(request, template_name="")

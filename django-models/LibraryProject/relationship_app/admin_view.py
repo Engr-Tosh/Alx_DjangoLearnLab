@@ -13,6 +13,3 @@ def role_check(user):           #function to check user role to be passed to the
     except UserProfile.DoesNotExist:
         return False
 
-@user_passes_test(role_check)
-def Admin(request):
-        return render(request, template_name="")
