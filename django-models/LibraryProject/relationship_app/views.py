@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
 from .admin_view import Admin
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required
 
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing
@@ -48,28 +48,14 @@ class LogoutView(View):
     
 from django.contrib.auth.decorators import user_passes_test
 
-# def admin_role_check(user):
-#     try:
-#         logged_in_user = UserProfile.objects.get(user=user)
-#         user_role = logged_in_user.role
-
-#         match user_role:
-#             case "Admin":
-#                 return True
-#             case _:
-#                 return False               
-
-#     except UserProfile.DoesNotExist:
-#         return False
-
 def role_check(user):
     try:
-        logged_in_user = UserProfile.objects.get(user=user)
-        user_role = logged_in_user.role
+        logged_in_user = UserProfile.objects.get(user=user)     #Gets the logged in user
+        user_role = logged_in_user.role                 #Gets user instance role
 
         match user_role:
-            case "Admin" | "Librarians" | "Member":
-                return True
+            case "Admin" | "Librarians" | "Member":     
+                return True                                  #Checks if the user has the role                           
             case _:
                 return False               
 
@@ -87,3 +73,35 @@ def Librarians(request):
 @user_passes_test(role_check)
 def Member(request):
     return(request, 'relationship_app/member_view.html')
+
+
+"""Task 4: implement permission checks to handle crud operations"""
+def get_book_list():
+    return Book.objects.all()
+
+#Permission for a user to create book
+@permission_required('relationship_app/can_add_book')
+def add_book(request):
+    book = Book.objects.create()
+    book.save()
+    context = {"book_list": get_book_list()}
+    return render(request, "relationship_app/list_book.html", context)
+
+#Permission to delete book
+@permission_required('relationship_app/can_delete_book')
+def delete(request):
+    book = Book.objects.get(id=None)       #Fetches the book instance to be deleted
+    book.delete()       #Deletes the book
+    context = {"book_list": get_book_list()}
+    return render(request, "relationship_app/list_book.html", context)
+
+#Permission to edit/change book
+@permission_required("relationship_app/can_change_book")
+def edit(request);
+    book = Book.objects.get(id=None)
+    book.title = None
+    book.author = None
+    book.save()
+    context = {"book_list": get_book_list()}
+    return render(request, "relationship_app/list_book.html", context)
+    
