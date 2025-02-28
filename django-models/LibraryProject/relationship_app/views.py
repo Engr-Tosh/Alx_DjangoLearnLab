@@ -52,7 +52,7 @@ def role_check(user):
     try:
         logged_in_user = UserProfile.objects.get(user=user)
         user_role = logged_in_user.role
-        if user_role in 'admin', 'member', 'Librarians':
+        if user_role in 'admin', 'member', 'librarian':
             return True
         else:
             return False
@@ -66,7 +66,7 @@ def Admin(request):
 
 @user_passes_test(role_check)
 def Librarian(request):
-    return(request, 'relationship_app/librarian_view.html')
+    return(request, "relationship_app/librarian_view.html")
 
 @user_passes_test(role_check)
 def Member(request):

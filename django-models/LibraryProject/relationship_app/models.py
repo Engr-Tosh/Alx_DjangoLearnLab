@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     ROLE_CHOICES = {
         ('Admin', 'Admin'),
         ('Member', 'Member'),
-        ('Librarian', 'Librarians')
+        ('Librarian', 'Librarian')
     }
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
