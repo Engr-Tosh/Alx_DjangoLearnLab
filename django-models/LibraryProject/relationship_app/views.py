@@ -7,8 +7,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
-from .admin_view import Admin
-from django.contrib.auth.decorators import user_passes_test, permission_required
+from django.contrib.auth.decorators import user_passes_test
 
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing
@@ -76,6 +75,8 @@ def Member(request):
 
 
 """Task 4: implement permission checks to handle crud operations"""
+from django.contrib.auth.decorators import permission_required
+
 def get_book_list():
     return Book.objects.all()
 
