@@ -52,7 +52,7 @@ def role_check(user):
     try:
         logged_in_user = UserProfile.objects.get(user=user)
         user_role = logged_in_user.role
-        if user_role in 'admin', 'member', 'librarian':
+        if user_role in 'admin', 'member', 'librarians':
             return True
         else:
             return False
