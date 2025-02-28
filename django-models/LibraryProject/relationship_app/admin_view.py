@@ -6,7 +6,7 @@ def role_check(user):           #function to check user role to be passed to the
     try:
         logged_in_user = UserProfile.objects.get(user=user)
         user_role = logged_in_user.role
-        if user_role == 'admin':
+        if user_role == 'Admin':
             return True
         else:
             return False
