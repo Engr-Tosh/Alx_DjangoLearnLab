@@ -65,7 +65,7 @@ def Admin(request):
     return(request, "relationship_app/admin_view.html")
 
 @user_passes_test(role_check)
-def Librarians(request):
+def Librarian(request):
     return(request, 'relationship_app/librarian_view.html')
 
 @user_passes_test(role_check)
