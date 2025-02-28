@@ -33,9 +33,9 @@ class Librarian(models.Model):
 class UserProfile(models.Model):
     #Each user role is to be given a choice.
     ROLE_CHOICES = {
-        ('Admin', 'Admin'),
-        ('Member', 'Member'),
-        ('Librarian', 'Librarian')
+        ('admin', 'Admin'),
+        ('member', 'Member'),
+        ('librarian', 'Librarian')
     }
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
