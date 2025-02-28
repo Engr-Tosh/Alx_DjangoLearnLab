@@ -54,7 +54,7 @@ def admin_role_check(user):
         user_role = logged_in_user.role
 
         match user_role:
-            case "Admin"
+            case "Admin":
                 return True
             case _:
                 return False               
@@ -62,13 +62,13 @@ def admin_role_check(user):
     except UserProfile.DoesNotExist:
         return False
 
-def librarian_role_check():
+def librarian_role_check(user):
     try:
         logged_in_user = UserProfile.objects.get(user=user)
         user_role = logged_in_user.role
 
         match user_role:
-            case "Librarians"
+            case "Librarians":
                 return True
             case _:
                 return False               
