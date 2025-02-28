@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
-from .admin_view import AdminView
+from .admin_view import Admin
 
 #The first task is to list all the books stored in the database
 #Call model from the models.py module and import modules for class based view subclassing

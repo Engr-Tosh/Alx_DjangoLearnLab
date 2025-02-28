@@ -14,5 +14,5 @@ def role_check(user):           #function to check user role to be passed to the
         return False
 
 @user_passes_test(role_check)
-def AdminView(request):
+def Admin(request):
         return render(request, template_name="")
