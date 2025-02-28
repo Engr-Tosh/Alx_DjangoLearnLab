@@ -52,10 +52,13 @@ def role_check(user):
     try:
         logged_in_user = UserProfile.objects.get(user=user)
         user_role = logged_in_user.role
-        for role in user_role:
-            return True
-        else:
-            return False
+
+        match user_role:
+            case "Admin" | "Librarian" | "Member":
+                return True
+            case _:
+                return False               
+
     except UserProfile.DoesNotExist:
         return False
     
