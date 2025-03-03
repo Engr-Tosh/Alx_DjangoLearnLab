@@ -53,7 +53,7 @@ from django.dispatch import receiver
 
 """Signal creation"""
 @receiver(post_save, sender=UserProfile)        #signals that the trigger would be from this sender
-def user_profile_created(sender, instance, created, **kwargs)
+def user_profile_created(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(instance=sender)
         return f"UserProfile automatically created for {instance}"

@@ -66,7 +66,7 @@ def Admin(request):
     return(request, "relationship_app/admin_view.html")
 
 @user_passes_test(role_check)
-def Librarians(request):
+def Librarian(request):
     return(request, "relationship_app/librarian_view.html")
 
 @user_passes_test(role_check)
@@ -90,15 +90,15 @@ def add_book(request):
 
 #Permission to delete book
 @permission_required('relationship_app.can_delete_book')
-def delete(request):
-    book = Book.objects.get(id=None)       #Fetches the book instance to be deleted
+def delete_book(request):
+    book = Book.objects.get()       #Fetches the book instance to be deleted
     book.delete()       #Deletes the book
     context = {"book_list": get_book_list()}
     return render(request, "relationship_app/list_book.html", context)
 
 #Permission to edit/change book
 @permission_required("relationship_app.can_change_book")
-def edit(request);
+def edit(request):
     book = Book.objects.get(id=None)
     book.title = None
     book.author = None
