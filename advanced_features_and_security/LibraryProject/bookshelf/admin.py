@@ -10,11 +10,11 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author')
 
 """CustomAdmin class creation"""
-class ModelAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin):
     """Configurations for additional fields"""
     list_display = ('email', 'username', 'password', 'date_of_birth', 'profile_photo')
     list_filter = ('email', 'username')
     search_fields = ('email', 'username')
 
 admin.site.register(Book, BookAdmin)
-admin.site.register(CustomUser, ModelAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
