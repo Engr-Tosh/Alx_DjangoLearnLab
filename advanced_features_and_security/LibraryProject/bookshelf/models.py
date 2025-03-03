@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
 """Creating the custom user manager to handle user(object) creation
 and querying of my custom user model"""
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, username=None, password=None, date_of_birth, profile_photo, **extra_fields):
+    def create_user(self, email, username, password, date_of_birth, profile_photo, **extra_fields):
         user = self.model(email, username, password, date_of_birth, profile_photo, **extra_fields)
         user.save(using=self.db)
         return user 
