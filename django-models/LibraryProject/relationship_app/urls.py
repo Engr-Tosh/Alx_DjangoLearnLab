@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LoginView         #imports django built in view for login
-from .views import LogoutView               #imports the custom created Logoutview to render te logout page
+from .views import LogoutView, list_books               #imports the custom created Logoutview to render te logout page
 
 urlpatterns = [
     path('book_list/', views.list_books, name = "book_list"),
