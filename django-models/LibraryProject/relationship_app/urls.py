@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LoginView         #imports django built in view for login
-from .views import LogoutView, list_books               #imports the custom created Logoutview to render te logout page
-
+from .views import LogoutView              #imports the custom created Logoutview to render te logout page
+from .views import list_books
 urlpatterns = [
     path('book_list/', views.list_books, name = "book_list"),
     path('library_details/<int:pk>/', views.LibraryDetailView.as_view(), name= 'details'),
