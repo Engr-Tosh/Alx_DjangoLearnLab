@@ -28,3 +28,18 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
 
         return self.create_user(email, username, password, date_of_birth, profile_photo, **extra_fields)
+    
+"""Managing Permissions and groups in django"""
+#Create a model and define custom permissions in the model
+
+class BookComment(models.Model):
+    post = models.TextField
+
+    #Nested Meta class to implement permissions that can be given to users
+    class Meta:
+        permissions = [(
+            "can_view",
+            "can_create",
+            "can_edit",
+            "can_delete"
+            )]
