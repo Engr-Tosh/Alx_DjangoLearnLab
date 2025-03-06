@@ -12,8 +12,9 @@ class BookAdmin(admin.ModelAdmin):
 custom Model admin class that includes config 
 for the additional field os the model"""
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('date_of_birth', 'profile_photo')
-
+    list_display = ('username' 'date_of_birth', 'profile_photo')
+    list_filter = ('username', 'profile_photo')
+    search_fields = ('username')
 
 admin.site.register(Book, BookAdmin)
 
