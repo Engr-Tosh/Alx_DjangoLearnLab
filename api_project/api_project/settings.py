@@ -130,5 +130,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',    #adds token based auth
         'rest_framework.authentication.SessionAuthentication',      #session/web based autentication
+        'rest_framework.permissions.IsAuthenticated'
     ) 
 }
