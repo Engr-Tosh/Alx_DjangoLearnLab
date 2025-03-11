@@ -20,8 +20,6 @@ class CustomUser(AbstractUser):
     date_of_birth = models.DateField(default=date.today, null=True)
     profile_photo = models.ImageField(default="default.jpg", null=True)
 
-    objects = CustomUserManager
-
     """Implementing custom user manager for the custom user model"""
 class CustomUserManager(BaseUserManager):
     #Custom usermanager methods 
