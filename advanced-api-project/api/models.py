@@ -11,9 +11,9 @@ class Author(models.Model):
 #Each book is associated with an author
 #The one to many relationship via the foreign key establishes that many books can be associated with a single author
 class Book(models.Model):
-    title = models.CharField(max_length=255, default="Unknown")
-    publication_year = models.IntegerField(default=0000)
+    title = models.CharField(max_length=255)
+    publication_year = models.IntegerField()
 
     #Establishes foreignkey relationshipwit the author model
     #on_delete ensures that if an author is deleted, their associated books are also removed
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books", null=True)
