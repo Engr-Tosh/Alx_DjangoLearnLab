@@ -22,7 +22,7 @@ class BookSerializer(serializers.ModelSerializer):
 # The AuthorSerializer serializes the Author model.
 # It includes a nested representation of books written by the author.
 class AuthorSerializer(serializers.ModelSerializer):
-    # books = BookSerializer(many=True, read_only=True)
+    books = BookSerializer(many=True, read_only=True)
     
     class Meta:
         model = Author
