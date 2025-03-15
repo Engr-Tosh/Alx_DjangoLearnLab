@@ -51,7 +51,7 @@ class CreateBookAPIView(generics.CreateAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = IsAuthenticated
+    permission_classes = [IsAuthenticated]
 
 
 #UpdateView for modifying existing view
@@ -68,7 +68,7 @@ class UpdateBookAPIView(generics.RetrieveUpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     lookup_field = 'pk'
-    permission_classes = IsAuthenticated
+    permission_classes = [IsAuthenticated]
 
 #DeleteView for removing an existing book
 class DeleteBookAPIView(generics.RetrieveDestroyAPIView):
