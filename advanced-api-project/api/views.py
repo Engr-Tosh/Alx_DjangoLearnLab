@@ -24,6 +24,7 @@ class ListBookAPIView(generics.ListAPIView):
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [filter.DjangoFilterBackend,]
+    filterset_fields = ['title', 'author', 'publication_year']
 
 #DetailView endpoint for retrieving a single book by id
 class DetailBookAPIView(generics.RetrieveAPIView):
