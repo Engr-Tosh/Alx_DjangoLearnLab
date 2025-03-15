@@ -9,6 +9,7 @@ from .models import Book
 from .serializers import BookSerializer 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters import rest_framework as filter 
+from rest_framework import filters 
 
 #ListView endpoint for retrieving all books
 class ListBookAPIView(generics.ListAPIView):
@@ -23,8 +24,9 @@ class ListBookAPIView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [filter.DjangoFilterBackend,]
+    filter_backends = [filter.DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['title', 'author', 'publication_year']
+    search_fields = ['title', 'author']   
 
 #DetailView endpoint for retrieving a single book by id
 class DetailBookAPIView(generics.RetrieveAPIView):
