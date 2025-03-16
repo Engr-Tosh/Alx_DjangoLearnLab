@@ -7,6 +7,9 @@ from django.db import models
 class Author(models.Model):
     name = models.CharField(max_length=255, default="Unknown")
 
+    def __str__(self):
+        return self.name
+
 #Book model rpr books in the system
 #Each book is associated with an author
 #The one to many relationship via the foreign key establishes that many books can be associated with a single author

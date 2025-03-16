@@ -13,7 +13,7 @@ from rest_framework import filters
 
 #ListView endpoint for retrieving all books
 class ListBookAPIView(generics.ListAPIView):
-    """API endpoint to retrieve a list a books.
+    """API endpoint to retrieve a list of books.
     
     Attribute:
         Queryset (queryset): All instances of the Book model.
@@ -28,7 +28,7 @@ class ListBookAPIView(generics.ListAPIView):
     #Adding filtering, searching, and ordering
     filter_backends = [filter.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['title', 'author', 'publication_year']  #filtering options
-    search_fields = ['title', 'author']   #Searchable fields  Example: http://example.com/api/books/?title=Things
+    search_fields = ['title', 'author__name']   #Searchable fields  Example: http://example.com/api/books/?title=Things
     ordering_fields = ['title', 'publication_year']     #Sortable fields
 
 #DetailView endpoint for retrieving a single book by id
