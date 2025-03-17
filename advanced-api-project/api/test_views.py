@@ -7,9 +7,20 @@ from rest_framework.test import APITestCase
 from .models import Book
 from rest_framework import status
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 class BookTests(APITestCase):
     def setUp(self):
+        #Create the user for authentication
+        User = get_user_model()
+        user = User.objects.create_user(username="testuser", password="testpass")
+       
+        #Log user in
+        login_successful = self.client.login(username="testuser", password="testpass")
+
+        #Debug print as to whether it was succesful
+        print("Login successful", login_successful)
+        
         self.book_data = {'title': 'Last Days at Forcados', 'publication_year': 2017}
     print("Setting test environment...")
 
