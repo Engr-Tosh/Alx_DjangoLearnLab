@@ -42,9 +42,8 @@ class ProfileView(LoginRequiredMixin, View):
         user = request.user
 
         if request.method == "POST":
-            
             updated_email = request.POST.get("email")       #gets email from form input i.e the user input
-                
+
             if updated_email:
                 user.email = updated_email      #if a new mail is provided, update.
                 user.save()
