@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
-from django.views import View
+from django.views.generic import View, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 """Setting up User Authentication Views"""
 
 class SignUpView(CreateView):
@@ -24,18 +26,31 @@ class LogoutView(View):
         logout(request)         #Logs Out a User
         return render(request, self.template_name)      #Returns this page after a user is logged out.
     
-        
-#Implementing the user profile view
-def profile_view(request):
-    """Gets the user profile and display the profile details"""
-    user = request.user
-    context = {"user": user}
-    return render(request, "blog/profile.html", context)
+#Implementing user profile view
 
+class ProfileView(LoginRequiredMixin, View):
+    template_name =  "blog/profile.html"
 
-"""Step 4: Implement Profile Management
-Profile Management Features:
-Develop a view that allows authenticated users to view and edit their profile details. This view should handle POST requests to update user information.
-Ensure the user can change their email and optionally extend the user model to include more fields like a profile picture or bio."""
+    
+    def get(self, request):
+        user= request.user      #To get the the particular view for the current user
+        context = {"user": user}
+        return render(request, self.template_name, context)
+    
+    
+    def post(self, request):
+        user = request.user
+        updated_email = request.POST.get("email")       #gets email from form input i.e the user input
 
-#View that allows authenticated users to edit profile details
+        if updated_email:
+            user.email = updated_email      #if a new mail is provided, update.
+            user.save()
+        return redirect(reverse_lazy("profile"))      #redirects to the profile page after update
+    
+    
+
+# """"Home Page View"""
+# class HomeView(TemplateView): 
+#     model = User
+#     template_name = ""
+
