@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile - Django Blog{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Welcome, {{ user.username }}!</h2>
+
+    <div class="profile-details">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+{% endblock %}
