@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}All Posts{% endblock %}
+
+{% block content %}
+    <h2>All Blog Posts</h2>
+
+    <a href="{% url 'profile' %}">Go to Profile</a> <!-- Profile Link -->
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'post_create' %}" style="margin-left: 20px;">Create New Post</a> <!-- Create Post Link -->
+    {% endif %}
+
+    {% for post in posts %}
+        <div class="post">
+            <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+            <p>{{ post.content|truncatewords:20 }}</p>
+            <p><small>By {{ post.author }} on {{ post.created_at }}</small></p>
+        </div>
+    {% empty %}
+        <p>No posts available.</p>
+    {% endfor %}
+{% endblock %}
+
+

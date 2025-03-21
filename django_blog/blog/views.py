@@ -2,10 +2,24 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
-from django.views.generic import CreateView
 from django.urls import reverse_lazy
-from django.views.generic import View, TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import (
+    View,
+    ListView, 
+    DetailView, 
+    CreateView, 
+    UpdateView,  
+    DeleteView,
+    TemplateView,
+)
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import Post
+from .forms import PostCreateForm
+
+"""Setting up blog home page"""
+class HomeView(TemplateView):
+    template_name = "blog/home.html"
+
 
 """Setting up User Authentication Views"""
 
@@ -51,8 +65,55 @@ class ProfileView(LoginRequiredMixin, View):
     
     
 
-# """"Home Page View"""
-# class HomeView(TemplateView): 
-#     model = User
-#     template_name = ""
 
+"""
+Creating blog Post Management features
+"""
+
+#Implement CRUD operations
+#I have created the form and also created the template to render 
+class ListPostView(ListView):
+    """View to display all blog posts"""
+    model = Post
+    template_name = "blog/list_post.html"
+    context_object_name = "posts"
+
+class DetailPostView(DetailView):
+    """View to show individual blog post"""
+    model = Post
+    template_name = "blog/post_detail.html"
+    context_object_name = "post"
+
+class CreatePostView(LoginRequiredMixin, CreateView):   #Ensures only authenticated users can create a post
+    """View to allow blog posts creation"""
+    model = Post
+    template_name = "blog/create_post.html"
+    form_class = PostCreateForm
+    success_url = reverse_lazy("posts")
+
+class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):  
+    """View to show individual blog posts"""
+    model = Post
+    template_name = "blog/post_update.html"
+    fields = ["title", "content"]
+    context_object_name = "post"
+    success_url = reverse_lazy("posts")
+
+    """A test function to ensure it is the required user that can perform this view function"""
+    def test_func(self):
+        post = self.get_object()       #Fetches the post
+        return self.request.user == post.author     #Checks if the post author is the logged in user
+
+
+class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """View to show individual blog posts"""
+    model = Post
+    template_name = "blog/confirm_post_delete.html"
+    success_url = reverse_lazy("posts")
+
+    """A test function to ensure only authenticated user who is the author can 
+    delete post."""
+    def test_func(self):
+        post = self.get_object()       #Fetches the post
+        return self.request.user == post.author     #Checks if the post author is the logged in user
+   

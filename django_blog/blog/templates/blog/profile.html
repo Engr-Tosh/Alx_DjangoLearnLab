@@ -1,28 +1,24 @@
+{% extends 'blog/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% block title %}Profile - Django Blog{% endblock %}
 
-    <h2>Profile Page</h2>
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-
-    <form method="post">
-        {% csrf_token %}
-        <label for="email">Update Email:</label>
-        <input type="email" name="email" value="{{ user.email }}" required>
-        <button type="submit">Save</button>
-    </form>
-
-    <!-- Corrected Logout Link -->
-    <a href="{% url 'logout' %}">Logout</a>
-
-</body>
-</html>
+{% block content %}
+    <section class="profile-page">
+        <h1>User Profile</h1>
+        
+        {% if user.is_authenticated %}
+            <p>Welcome, <strong>{{ user.username }}</strong>!</p>
+            <p>Email: {{ user.email }}</p>
+            
+            <h2>Change Email</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <label for="email">New Email:</label>
+                <input type="email" name="email" id="email" required>
+                <button type="submit">Update Email</button>
+            </form>
+        {% else %}
+            <p>You need to <a href="{% url 'login' %}">log in</a> to view this page.</p>
+        {% endif %}
+    </section>
+{% endblock %}

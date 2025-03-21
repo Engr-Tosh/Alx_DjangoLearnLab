@@ -1,12 +1,16 @@
-<!-- logout.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Logout</title>
-</head>
-<body>
-    <h1>You have been logged out</h1>
-    <a href="{% url 'login' %}">Login again</a>
-</body>
-</html>
+{% extends 'blog/base.html' %}
+
+{% block title %}Logged Out - Django Blog{% endblock %}
+
+{% block content %}
+    <section class="logout-page">
+        <h1>Logout</h1>
+        
+        {% if user.is_authenticated %}
+            <p>You are still logged in as {{ user.username }}. <a href="{% url 'logout' %}">Logout</a></p>
+        {% else %}
+            <p>You have been successfully logged out.</p>
+            <a href="{% url 'login' %}">Login again</a>
+        {% endif %}
+    </section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Home - Django Blog{% endblock %}
+
+{% block content %}
+    <section class="homepage">
+        <h1>Welcome to Django Blog</h1>
+        <p>Your go-to place for insightful articles and discussions.</p>
+
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}! <a href="{% url 'logout' %}">Logout</a></p>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to join the conversation.</p>
+        {% endif %}
+
+        <h2>Recent Posts</h2>
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                    <p>By {{ post.author }} on {{ post.created_at|date:"F d, Y" }}</p>
+                </li>
+            {% empty %}
+                <p>No posts yet. Stay tuned!</p>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
