@@ -23,7 +23,7 @@ urlpatterns = [
     path("profile/", ProfileView.as_view(template_name="blog/profile.html"), name="profile"),
     path("posts/", ListPostView.as_view(), name="posts"),
     path("posts/<int:pk>/", DetailPostView.as_view(), name="post_detail"),
-    path("posts/new/", CreatePostView.as_view(), name="post_create"),
-    path("posts/<int:pk>/update/", UpdatePostView.as_view(), name="post_update"),
-    path("posts/<int:pk>/delete/", DeletePostView.as_view(), name="post_delete")
+    path("post/new/", CreatePostView.as_view(), name="post_create"),
+    path("post/<int:pk>/update/", UpdatePostView.as_view(), name="post_update"),
+    path("post/<int:pk>/delete/", DeletePostView.as_view(), name="post_delete")
 ]
