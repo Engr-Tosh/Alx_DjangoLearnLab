@@ -91,6 +91,11 @@ class CreatePostView(LoginRequiredMixin, CreateView):   #Ensures only authentica
     form_class = PostCreateForm
     success_url = reverse_lazy("posts")
 
+    #Ensuring logged in user is the post author
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):  
     """View to show individual blog posts"""
     model = Post
