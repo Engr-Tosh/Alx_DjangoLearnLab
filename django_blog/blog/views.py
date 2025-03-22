@@ -15,6 +15,7 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from .forms import PostCreateForm
+from django.contrib.auth.decorators import login_required
 
 """Setting up blog home page"""
 class HomeView(TemplateView):
