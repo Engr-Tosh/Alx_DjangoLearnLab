@@ -75,19 +75,19 @@ Creating blog Post Management features
 class ListPostView(ListView):
     """View to display all blog posts"""
     model = Post
-    template_name = "blog/listview.html"
+    template_name = "blog/post_list.html"
     context_object_name = "posts"
 
 class DetailPostView(DetailView):
     """View to show individual blog post"""
     model = Post
-    template_name = "blog/detailview.html"
+    template_name = "blog/post_detail.html"
     context_object_name = "post"
 
 class CreatePostView(LoginRequiredMixin, CreateView):   #Ensures only authenticated users can create a post
     """View to allow blog posts creation"""
     model = Post
-    template_name = "blog/createview.html"
+    template_name = "blog/post_form.html"
     form_class = PostCreateForm
     success_url = reverse_lazy("posts")
 
@@ -99,7 +99,7 @@ class CreatePostView(LoginRequiredMixin, CreateView):   #Ensures only authentica
 class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):  
     """View to show individual blog posts"""
     model = Post
-    template_name = "blog/updateview.html"
+    template_name = "blog/post_form.html"
     fields = ["title", "content"]
     context_object_name = "post"
     success_url = reverse_lazy("posts")
@@ -113,7 +113,7 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """View to show individual blog posts"""
     model = Post
-    template_name = "blog/deleteview.html"
+    template_name = "blog/post_confirm_delete.html"
     success_url = reverse_lazy("posts")
 
     """A test function to ensure only authenticated user who is the author can 

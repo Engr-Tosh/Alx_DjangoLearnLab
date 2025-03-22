@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ form.instance.pk|default:"Create Post" }}{% endblock %}
+
+{% block content %}
+    <h2>{{ form.instance.pk|default:"Create" }}. Post</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{{ form.instance.pk|default:"Create" }}. Post</button>
+    </form>
+    <a href="{% url 'posts' %}">Back to Posts</a>
+{% endblock %}
