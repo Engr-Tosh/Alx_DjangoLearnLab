@@ -19,3 +19,10 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post_author")
 
 
+"""Adding comment functionality to bog post"""
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_comment")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post_author")
+    content = models.TextField()
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
