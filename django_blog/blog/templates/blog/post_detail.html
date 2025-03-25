@@ -10,8 +10,46 @@
     <a href="{% url 'posts' %}">Back to Posts</a> <!-- Back to Posts Link -->
 
     {% if user == post.author %}
-        <a href="{% url 'post_update' post.pk %}" style="margin-left: 15px;">Edit Post</a> <!-- Edit Link -->
-        <a href="{% url 'post_delete' post.pk %}" style="margin-left: 15px; color: red;">Delete Post</a> <!-- Delete Link -->
+        <a href="{% url 'post_update' post.pk %}" style="margin-left: 15px;">Edit Post</a>
+        <a href="{% url 'post_delete' post.pk %}" style="margin-left: 15px; color: red;">Delete Post</a>
     {% endif %}
-{% endblock %}
 
+    <hr>
+
+    <!-- Display Comments -->
+    <h3>Comments</h3>
+    {% if post.comments.all %}
+        <ul>
+            {% for comment in post.comments.all %}
+                <li>
+                    <strong>{{ comment.author.username }}</strong> - 
+                    <small>{{ comment.created_at|date:"F d, Y H:i" }}</small><br>
+                    {{ comment.content }}
+                    
+                    <!-- Edit/Delete Links (Only for Comment Author) -->
+                    {% if user == comment.author %}
+                        <a href="{% url 'comment_update' post_pk=comment.post.pk comment_pk=comment.pk %}" style="margin-left: 10px;">Edit</a>
+                        <a href="{% url 'comment_delete' post_pk=comment.post.pk comment_pk=comment.pk %}" style="margin-left: 10px; color: red;">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Comment Form for Authenticated Users -->
+    {% if user.is_authenticated %}
+        <h3>Leave a Comment</h3>
+        <form method="POST" action="{% url 'comment_create' post.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post Comment</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+    {% endif %}
+
+{% endblock %}

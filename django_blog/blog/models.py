@@ -21,8 +21,8 @@ class Post(models.Model):
 
 """Adding comment functionality to bog post"""
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_comment")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post_author")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment_author", auto_created=True)
     content = models.TextField()
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
