@@ -148,9 +148,6 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         context["post"] = get_object_or_404(Post, pk=self.kwargs["pk"])  # Ensure post is available in template
         return context
     
-    # def test_func(self):
-    #     comment = self.get_object()
-    #     return self.request.user == comment.author
     
     def get_success_url(self):
         """Redirects back to the post detail page after a comment is added"""
@@ -164,7 +161,7 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
    
     def get_success_url(self):
         """Redirects to the post detail page after comment update"""
-        return reverse_lazy("post_detail", kwargs={"pk": self.kwargs["post_pk"]})
+        return reverse_lazy("post_detail", kwargs={"pk": self.object.post.pk})
 
     def test_func(self):
         """Ensures only the comment author can edit the comment"""
@@ -173,20 +170,21 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["post"] = get_object_or_404(Post, pk=self.kwargs["post_pk"])    # Ensures the post is available in the template
+        comment = self.get_object()
+        context["post"] = comment.post   # Get the associated post directly from the comment
         return context
     
     def form_valid(self, form):
         """Associates the comment with the correct post and saves it"""
-        post = get_object_or_404(Post, pk=self.kwargs['post_pk'])   # Get the post from the URL
+        post = self.object.post   # Get the post from the URL
         form.instance.post = post      # Associate comment with post
         form.instance.author = self.request.user  # Assign the logged in user
         form.save()
-        return redirect('post_detail', pk=self.kwargs['post_pk']) # Ensure form is validated and saved
+        return redirect('post_detail', pk=post.pk) # Ensure form is validated and saved
 
     def get_object(self, queryset=None):
         """Retrieves the correct comment instance"""
-        return get_object_or_404(Comment, pk=self.kwargs["comment_pk"])
+        return get_object_or_404(Comment, pk=self.kwargs["pk"])
 
 
 # Delete comment view
@@ -197,7 +195,8 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         """Redirects to the post detail page after deleting the comment"""
-        return reverse_lazy("post_detail", kwargs={"pk": self.kwargs["post_pk"]})
+        comment = self.get_object()
+        return reverse_lazy("post_detail", kwargs={"pk": comment.post.pk})
 
     def test_func(self):
         """Ensures only the comment author can delete the comment"""
@@ -206,4 +205,4 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_object(self, queryset=None):
         """Retrieves the correct comment instance"""
-        return get_object_or_404(Comment, pk=self.kwargs["comment_pk"])
+        return get_object_or_404(Comment, pk=self.kwargs["pk"])

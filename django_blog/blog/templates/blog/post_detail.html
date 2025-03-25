@@ -28,8 +28,8 @@
                     
                     <!-- Edit/Delete Links (Only for Comment Author) -->
                     {% if user == comment.author %}
-                        <a href="{% url 'comment_update' post_pk=comment.post.pk comment_pk=comment.pk %}" style="margin-left: 10px;">Edit</a>
-                        <a href="{% url 'comment_delete' post_pk=comment.post.pk comment_pk=comment.pk %}" style="margin-left: 10px; color: red;">Delete</a>
+                        <a href="{% url 'comment_update' pk=comment.pk %}" style="margin-left: 10px;">Edit</a>
+                        <a href="{% url 'comment_delete' pk=comment.pk %}" style="margin-left: 10px; color: red;">Delete</a>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -40,16 +40,15 @@
 
     <hr>
 
-    <!-- Comment Form for Authenticated Users -->
+    <!-- Comment Form (Only if user is logged in) -->
     {% if user.is_authenticated %}
-        <h3>Leave a Comment</h3>
-        <form method="POST" action="{% url 'comment_create' post.pk %}">
+        <h3>Add a Comment</h3>
+        <form method="POST" action="{% url 'comment_create' pk=post.pk %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Post Comment</button>
+            <button type="submit">Add Comment</button>
         </form>
     {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+        <p>You must be logged in to add a comment.</p>
     {% endif %}
-
 {% endblock %}
