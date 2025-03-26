@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField()
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password']
@@ -23,6 +23,9 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
         user =  get_user_model().objects.create_user(**validated_data)   # creates user instance
         user.set_password(password)     # hashes the password
         user.save()     # Save the user to the database
+
+        # Generates the token for the authenticated user
+        token = Token.objects.create(user=user)
         
         return user
         
