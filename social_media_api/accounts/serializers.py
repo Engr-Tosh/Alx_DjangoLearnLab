@@ -3,6 +3,7 @@ from .models import CustomUser
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
+
 User = get_user_model()     # Specifies the user model to be used
 
 # Implement the User serialization
@@ -23,7 +24,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         username = self.validated_data.get("username")
         email = self.validated_data.get("email")
         password = self.validated_data.get("password")
-        user = User.objects.create_user(username=username, email=email, password=password) 
+        user = get_user_model().objects.create_user(username=username, email=email, password=password) 
         Token.objects.create(user=user)    # Generates token for a user upon creation
         
         return user
