@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import CustomUser
-from rest_framework import response, status
+from rest_framework.response import Response
+from rest_framework import status
 from .serializers import (
     UserRegisterSerializer,
     Userserializer,
@@ -36,9 +37,9 @@ class UserLoginView(APIView):
 
         if user:
             token = Token.objects.get(user=user)  # Generates/retrieves token for the logged in user
-            return response.Response({"token": token.key, "message": "Login Successful" }, status=status.HTTP_200_OK)
+            return Response({"token": token.key, "message": "Login Successful" }, status=status.HTTP_200_OK)
         else:
-            return response.Response({"error": "Inavlid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "Inavlid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         
 class UserProfileView(generics.RetrieveAPIView):
     """
@@ -68,13 +69,13 @@ class FollowersAPIView(generics.GenericAPIView):
             user_to_follow = CustomUser.objects.get(id=user_id)
             
             if user_to_follow in request.user.following.all():
-                return response.Response({"Message":'Already following this user'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"Message":'Already following this user'}, status=status.HTTP_400_BAD_REQUEST)
             
             request.user.following.add(user_to_follow)
-            return response.Response({"Message": "User Succesfully followed"}, status=status.HTTP_200_OK) 
+            return Response({"Message": "User Succesfully followed"}, status=status.HTTP_200_OK) 
 
         except CustomUser.DoesNotExist:
-            return response.Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
         
     # Delete method to unfollow users
     def delete(self, request):
@@ -85,10 +86,10 @@ class FollowersAPIView(generics.GenericAPIView):
 
             if user_to_unfollow in request.user.following.all():
                 request.user.following.remove(user_to_unfollow)
-                return response.Response({"Message:" "Successfully unfollowed"}, status=status.HTTP_204_NO_CONTENT)
+                return Response({"Message:" "Successfully unfollowed"}, status=status.HTTP_204_NO_CONTENT)
             
         except CustomUser.DoesNotExist:
-            return response.Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
         
      
