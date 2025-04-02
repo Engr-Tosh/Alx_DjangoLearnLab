@@ -90,8 +90,7 @@ class FollowersAPIView(generics.GenericAPIView):
             
         except CustomUser.DoesNotExist:
             return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-        
+           
      
         
         

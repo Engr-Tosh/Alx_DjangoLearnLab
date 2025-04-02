@@ -9,10 +9,6 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ["author", "title", "content", "created_at", "updated_at"]
         read_only_fields = ["created_at", "updated_at"]
 
-
-    def validate_content(self, data):
-        pass
-
     def validate(self, data):
         content = data.get("content")
 
