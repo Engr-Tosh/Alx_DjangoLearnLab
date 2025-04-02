@@ -31,7 +31,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 """Implementing the feed functionality"""
 class PostFeedView(generics.ListAPIView):
-    """feeds of posts from the users the current logged in user is following"""
+    """Feeds of posts from the users the current logged-in user is following"""
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     pagination_class = PostCommentPagination
