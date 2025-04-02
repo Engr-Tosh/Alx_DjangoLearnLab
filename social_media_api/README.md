@@ -1,13 +1,15 @@
 # Social Media API
 
 ## Project Overview
-This is a Django-based REST API for a social media platform, enabling user authentication, profile management, and token-based authentication using Django REST Framework (DRF).
+This Django-based REST API serves as the backend for a social media platform, supporting user authentication, profile management, post creation, commenting, and following functionality. It utilizes Django REST Framework (DRF) for API implementation and token-based authentication.
 
 ## Features
-- User registration
-- User login with token authentication
-- User profile retrieval
-- Custom user model with additional fields (bio, profile picture, followers)
+- User registration and authentication (token-based authentication)
+- User profile management (bio, profile picture, followers, following)
+- User login/logout functionality
+- Post creation, retrieval, updating, and deletion
+- Commenting on posts
+- Follow and unfollow functionality
 
 ---
 
@@ -18,6 +20,7 @@ Ensure you have Python installed on your system. You can check your installation
 ```bash
 python --version
 ```
+
 Install `pip`, `virtualenv`, and other dependencies:
 ```bash
 pip install virtualenv
@@ -46,9 +49,10 @@ pip install django djangorestframework djangorestframework.authtoken
 django-admin startproject social_media_api .
 ```
 
-5. **Create an `accounts` app**
+5. **Create required Django apps**
 ```bash
 python manage.py startapp accounts
+python manage.py startapp posts
 ```
 
 6. **Add required apps to `INSTALLED_APPS` in `settings.py`**
@@ -63,6 +67,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'accounts',
+    'posts',
 ]
 ```
 
@@ -145,6 +150,108 @@ python manage.py runserver
 }
 ```
 
+### 4. Follow a User
+**Endpoint:** `POST /follow/`
+**Description:** Allows a user to follow another user.
+
+#### Request Body:
+```json
+{
+    "user_id": 2
+}
+```
+
+#### Response:
+```json
+{
+    "message": "User successfully followed"
+}
+```
+
+### 5. Unfollow a User
+**Endpoint:** `DELETE /unfollow/`
+**Description:** Allows a user to unfollow another user.
+
+#### Request Body:
+```json
+{
+    "user_id": 2
+}
+```
+
+#### Response:
+```json
+{
+    "message": "Successfully unfollowed"
+}
+```
+
+---
+
+## Posts and Comments Endpoints
+
+### 6. Create a Post
+**Endpoint:** `POST /posts/`
+**Description:** Allows an authenticated user to create a post.
+
+#### Request Body:
+```json
+{
+    "title": "My First Post",
+    "content": "This is the content of my first post."
+}
+```
+
+#### Response:
+```json
+{
+    "id": 1,
+    "author": "example_user",
+    "title": "My First Post",
+    "content": "This is the content of my first post.",
+    "created_at": "2025-03-30T12:00:00Z"
+}
+```
+
+### 7. Retrieve All Posts
+**Endpoint:** `GET /posts/`
+**Description:** Fetches a list of all posts.
+
+#### Response:
+```json
+[
+    {
+        "id": 1,
+        "author": "example_user",
+        "title": "My First Post",
+        "content": "This is the content of my first post.",
+        "created_at": "2025-03-30T12:00:00Z"
+    }
+]
+```
+
+### 8. Comment on a Post
+**Endpoint:** `POST /posts/{post_id}/comments/`
+**Description:** Allows users to add a comment to a post.
+
+#### Request Body:
+```json
+{
+    "content": "Great post!"
+}
+```
+
+#### Response:
+```json
+{
+    "id": 1,
+    "post": 1,
+    "author": "example_user",
+    "content": "Great post!",
+    "created_at": "2025-03-30T12:10:00Z"
+}
+```
+
 ---
 
 ## User Model Overview
@@ -182,12 +289,8 @@ curl -X GET http://127.0.0.1:8000/profile/ \
 
 ---
 
-## Conclusion
-This API provides essential authentication features for a social media application using Django REST Framework. Future enhancements can include features like password reset, user updates, and additional endpoints for social interactions.
-
-### Contributions
+## Contributions
 Feel free to contribute by submitting a pull request or reporting issues.
 
 Happy Coding! 🚀
-
 
