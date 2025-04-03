@@ -24,3 +24,6 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification {self.verb} by {self.actor} for {self.recipient} on {self.timestamp}"
+    
+    class Meta:
+        ordering_by = ["-timestamp"]
