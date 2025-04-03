@@ -1,11 +1,11 @@
 from rest_framework import generics, permissions, pagination
-from django.shortcuts import get_object_or_404  # Correct import for get_object_or_404
 from .models import Notification
 from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from posts.models import Post, Like  # Ensure Like is correctly imported
+from posts.models import Post, Like
 
 User = get_user_model()
 
@@ -25,13 +25,14 @@ class NotificationAPIView(generics.ListCreateAPIView):
         content_type = ContentType.objects.get_for_model(target)  # Get content type of target model
         
         notification = Notification.objects.create(
-            recipient=recipient,
-            verb=verb,
-            actor=actor,
-            target=target,
-            content_type=content_type,
-            object_id=target.id
+            recipient = recipient,
+            verb = verb,
+            actor = actor,
+            target = target,
+            content_type = content_type,
+            object_id = target.id
         )
+         
         return notification
     
     # Handles actions that trigger notifications
@@ -46,38 +47,38 @@ class NotificationAPIView(generics.ListCreateAPIView):
         if not verb or not target_user_id:
             return Response({"error": "Missing Required Fields"}, status=status.HTTP_400_BAD_REQUEST)
 
-        target_user = get_object_or_404(User, id=target_user_id)  # Corrected usage of get_object_or_404
-
+        target_user = generics.get_object_or_404(User, id=target_user_id)
+                
         if verb == "follow":
             if actor == target_user:
                 return Response({"error": "You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
 
             notification = self.create_notification(
-                actor=actor,
-                recipient=target_user,
-                verb="follow",
-                target=target_user
+                actor = actor,
+                recipient = target_user,
+                verb = "follow",
+                target = target_user
             )
             return Response({"Message": "Notification sent", "Notification": str(notification)}, status=status.HTTP_201_CREATED)
         
         # Liking
         if verb == "like":
             pk = request.data.get("post_pk")
-            post = get_object_or_404(Post, pk=pk)  # Corrected usage of get_object_or_404
-            Like.objects.get_or_create(user=request.user, post=post)  # Ensure Like model is properly used
+            post = generics.get_object_or_404(Post, pk=pk)
+            Like.objects.get_or_create(user=request.user, post=post)
 
             notification = self.create_notification(
-                actor=actor,
-                recipient=post.user,  # Send notification to the post owner
-                verb="like",
-                target=post
+                actor= actor,
+                recipient= post.user,  # Send notification to the post owner
+                verb= "like",
+                target= post
             )
             return Response({"Message": "Liked a post", "Notification": str(notification)}, status=status.HTTP_200_OK)
         
         # Unliking
         if verb == "unlike":
             pk = request.data.get("post_pk")
-            post = get_object_or_404(Post, pk=pk)  # Corrected usage of get_object_or_404
+            post = generics.get_object_or_404(Post, pk=pk)
 
             like_instance = Like.objects.filter(user=request.user, post=post).first()
 
@@ -87,3 +88,6 @@ class NotificationAPIView(generics.ListCreateAPIView):
                 return Response({"error": "You have not liked this post yet"}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({"error": "Invalid action"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # When a User unlikes a post or unfollows another user.
+    
